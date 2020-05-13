@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private Integer numberG;
     private static final String TAG = MainActivity.class.toString();
     private List<Integer> sorteio = new ArrayList<>();
-    private List<Integer> resposta = new ArrayList<>();
+    private List<String> resposta = new ArrayList<>();
+    private int pontuacao = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Verificar respostas
         linearResposta = findViewById(R.id.linearResposta);
+        buttonVerificar = findViewById(R.id.buttonVerificar);
 
         editText1 = findViewById(R.id.editText1);
         editText2 = findViewById(R.id.editText2);
@@ -89,11 +92,9 @@ public class MainActivity extends AppCompatActivity {
                             textViewSequencia.setText("Preencha");
                             linearSequencia.setVisibility(View.INVISIBLE);
                             linearResposta.setVisibility(View.VISIBLE);
+                            buttonVerificar.setVisibility(View.VISIBLE);
 
-                            //TODO Ler os editText
-                            //TODO Inserir valores editText na lista respostas
-                            //TODO Verificar se as respostas são igual
-                            //TODO Atualizar textViewSequencia com quantidade acertadas
+                            System.out.println(sorteio);
                         }
                     });
                 }
@@ -103,4 +104,38 @@ public class MainActivity extends AppCompatActivity {
 
 
     }//click
+
+    public void preencherResposta(View view) {
+        if(view.getId() == R.id.buttonVerificar){
+            //TODO Ler os editText
+            //TODO Inserir valores editText na lista respostas
+            resposta.add(editText1.getText().toString());
+            resposta.add(editText2.getText().toString());
+            resposta.add(editText3.getText().toString());
+            resposta.add(editText4.getText().toString());
+            resposta.add(editText5.getText().toString());
+            resposta.add(editText6.getText().toString());
+            resposta.add(editText7.getText().toString());
+            resposta.add(editText8.getText().toString());
+            resposta.add(editText9.getText().toString());
+            resposta.add(editText10.getText().toString());
+        }//if
+    }//lerEditeText
+
+    public void verificar(View view) {
+        //TODO Verificar se as respostas são igual
+        preencherResposta(view);
+
+        for (int i=0; i<10; i++){
+            if(sorteio.get(i).toString().equals(resposta.get(i))){
+                pontuacao= pontuacao+1;
+            }
+        }
+        resposta.clear();
+        //TODO Atualizar textViewSequencia com quantidade acertadas
+        linearResposta.setVisibility(View.INVISIBLE);
+        buttonVerificar.setVisibility(View.INVISIBLE);
+        textViewSequencia.setVisibility(View.VISIBLE);
+        textViewSequencia.setText("Você fez "+pontuacao+" acertos.");
+    }
 }//class
